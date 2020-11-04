@@ -10,6 +10,8 @@ const controls = [
 ];
 
 const BuildControls = (props) => {
+  console.log(props.purchasable);
+
   return (
     <div className={classes.BuildControls}>
       <h3>
@@ -26,6 +28,9 @@ const BuildControls = (props) => {
           />
         );
       })}
+      <button className={classes.OrderButton} disabled={props.purchasable}>
+        ORDER NOW
+      </button>
     </div>
   );
 };
