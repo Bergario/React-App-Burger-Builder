@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import Auxiliary from "../../../hoc/Auxiliary";
 import Button from "../../UI/Button/Button";
 
@@ -10,7 +10,6 @@ const OrderSummary = (props) => {
       </li>
     );
   });
-
   return (
     <Auxiliary>
       <div>
