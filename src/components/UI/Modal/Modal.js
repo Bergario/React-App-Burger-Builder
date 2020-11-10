@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classes from "./Modal.module.css";
-import Auxiliary from "../../../hoc/Auxiliary";
+import Auxiliary from "../../../hoc/Auxiliary/Auxiliary";
 import Backdrop from "../Backdrop/Backdrop";
 
 export class Modal extends Component {
@@ -20,7 +20,8 @@ export class Modal extends Component {
           style={{
             transform: this.props.show ? "translateY(0)" : "translateY(-100vh)",
             opacity: this.props.show ? "1" : "0",
-          }}>
+          }}
+        >
           {this.props.children}
         </div>
       </Auxiliary>
