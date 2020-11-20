@@ -17,7 +17,7 @@ export class Modal extends Component {
   render() {
     return (
       <Auxiliary>
-        <Backdrop show={this.props.show} />
+        <Backdrop show={this.props.show} purchase={this.props.purchase} />
         <div
           className={classes.Modal}
           style={{
