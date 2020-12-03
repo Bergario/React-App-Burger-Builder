@@ -32,7 +32,7 @@ class BurgerBuilder extends Component {
 
   componentDidMount = () => {
     axios
-      .get("https://react-my-burger-2-a878f.firebaseio.com/ingredients.json")
+      .get("ingredients.json")
       .then((response) => this.setState({ ingredients: response.data }))
       .catch((error) => {
         this.setState({ error: true });
@@ -157,6 +157,7 @@ class BurgerBuilder extends Component {
     if (this.state.loader) {
       OrderSummarys = <Spinner />;
     }
+    console.log(this.state.purchase);
 
     return (
       <Auxiliary>
