@@ -7,6 +7,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import { Redirect, Route } from "react-router-dom";
 
 const INGREDIENTS_PRICE = {
   Salad: 0.6,
@@ -28,6 +29,7 @@ class BurgerBuilder extends Component {
     purchase: false,
     loader: false,
     error: false,
+    redirect: null,
   };
 
   componentDidMount = () => {
@@ -112,9 +114,12 @@ class BurgerBuilder extends Component {
       .post("/orders.json", order)
       .then((response) => this.setState({ loader: false, purchase: false }))
       .catch((error) => this.setState({ loader: false, purchase: false }));
+
+    this.setState({ redirect: <Redirect to="/checkout" /> });
   };
 
   render() {
+    const redirect = this.state.redirect;
     const disableInfo = {
       ...this.state.ingredients,
     };
@@ -157,10 +162,11 @@ class BurgerBuilder extends Component {
     if (this.state.loader) {
       OrderSummarys = <Spinner />;
     }
-    console.log(this.state.purchase);
+    console.log(this.props);
 
     return (
       <Auxiliary>
+        {redirect}
         <Modal show={this.state.purchase} purchase={this.purchaseHanlder}>
           {OrderSummarys}
         </Modal>
