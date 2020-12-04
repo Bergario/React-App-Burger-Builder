@@ -3,12 +3,26 @@
     color: #CF8F2E;
     margin: auto;
     width: 80%;
+    font-size: 0.8rem;
 }
 
+
+@media (min-width: 350px) {
+    .Checkout {
+        font-size: 12px;
+    }
+    
+}
+@media (min-width: 450px) and (min-height: 700px){
+    .Checkout{
+        font-size: 16px;
+    }
+    
+}
 @media(min-width:600px){
     .Checkout{
         width: 500px;
+        font-size: 16px;
 
     }
 }
-
