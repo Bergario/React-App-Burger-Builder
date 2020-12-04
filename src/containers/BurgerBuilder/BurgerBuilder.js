@@ -7,7 +7,6 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import { Redirect } from "react-router-dom";
 
 const INGREDIENTS_PRICE = {
   Salad: 0.6,
@@ -29,7 +28,6 @@ class BurgerBuilder extends Component {
     purchase: false,
     loader: false,
     error: false,
-    redirect: null,
   };
 
   componentDidMount = () => {
@@ -96,30 +94,43 @@ class BurgerBuilder extends Component {
 
   purchaseContinueHandler = () => {
     this.setState({ loader: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      totalPrice: this.state.totalPrice,
-      customer: {
-        name: "Bemby",
-        address: {
-          street: "Yogyakarta",
-          zipCode: "59155",
-          country: "Indonesia",
-        },
-        email: "asudah@test.com",
-      },
-      deliveryMethod: "fastest",
-    };
-    axios
-      .post("/orders.json", order)
-      .then((response) => this.setState({ loader: false, purchase: false }))
-      .catch((error) => this.setState({ loader: false, purchase: false }));
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   totalPrice: this.state.totalPrice,
+    //   customer: {
+    //     name: "Bemby",
+    //     address: {
+    //       street: "Yogyakarta",
+    //       zipCode: "59155",
+    //       country: "Indonesia",
+    //     },
+    //     email: "asudah@test.com",
+    //   },
+    //   deliveryMethod: "fastest",
+    // };
+    // axios
+    //   .post("/orders.json", order)
+    //   .then((response) => this.setState({ loader: false, purchase: false }))
+    //   .catch((error) => this.setState({ loader: false, purchase: false }));
 
-    this.setState({ redirect: <Redirect to="/checkout" /> });
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+      queryParams.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[i])
+      );
+    }
+
+    const queryString = queryParams.join("&");
+
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString,
+    });
   };
 
   render() {
-    const redirect = this.state.redirect;
     const disableInfo = {
       ...this.state.ingredients,
     };
@@ -162,11 +173,9 @@ class BurgerBuilder extends Component {
     if (this.state.loader) {
       OrderSummarys = <Spinner />;
     }
-    console.log(this.props);
 
     return (
       <Auxiliary>
-        {redirect}
         <Modal show={this.state.purchase} purchase={this.purchaseHanlder}>
           {OrderSummarys}
         </Modal>

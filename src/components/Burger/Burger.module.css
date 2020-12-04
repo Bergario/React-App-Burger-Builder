@@ -15,6 +15,13 @@
     }
 } */
 
+@media (min-width:700px) and (min-height:300px){
+    .Burger{
+        width: 400px;
+        height: 300px;
+    }
+}
+
 @media (min-width:350px) and (min-height: 400px){
     .Burger{
         width: 350px;
