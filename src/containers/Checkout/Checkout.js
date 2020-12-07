@@ -12,6 +12,7 @@ class Checkout extends Component {
     loader: false,
     cancel: null,
     continous: null,
+    price: 0,
   };
 
   componentDidMount() {
@@ -25,11 +26,17 @@ class Checkout extends Component {
 
     const query = new URLSearchParams(this.props.location.search);
     const ingredients = {};
+    let price = 0;
     for (let param of query.entries()) {
       //['salad', '1']
-      ingredients[param[0]] = +param[1];
+      if (param[0] === "price") {
+        price = param[1];
+      } else {
+        ingredients[param[0]] = +param[1];
+      }
     }
-    this.setState({ ingredients });
+
+    this.setState({ ingredients, price });
   }
 
   continousHandler = () => {
@@ -41,7 +48,7 @@ class Checkout extends Component {
   };
 
   render() {
-    console.log(this.props);
+    console.log(this.state.price);
 
     let checkoutsummary = this.state.error ? (
       <p>Something went wrong!</p>
@@ -72,7 +79,12 @@ class Checkout extends Component {
         {checkoutsummary}
         <Route
           path={this.props.match.url + "/contact-data"}
-          component={ContactData}
+          render={() => (
+            <ContactData
+              ingredients={this.state.ingredients}
+              totalPrice={this.state.price}
+            />
+          )}
         />
       </div>
     );
