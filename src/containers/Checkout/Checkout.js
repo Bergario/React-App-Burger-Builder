@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import CheckoutSummary from "../../components/Order/CheckoutSummary";
 // import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import ContactData from "./ContactData/ContactData";
+import { Route } from "react-router-dom";
 
 class Checkout extends Component {
   state = {
@@ -9,6 +11,7 @@ class Checkout extends Component {
     error: false,
     loader: false,
     cancel: null,
+    continous: null,
   };
 
   componentDidMount() {
@@ -29,11 +32,17 @@ class Checkout extends Component {
     this.setState({ ingredients });
   }
 
+  continousHandler = () => {
+    this.props.history.push(this.props.match.url + "/contact-data");
+  };
+
   cancelHandler = () => {
     this.setState({ cancel: this.props.history.goBack("/burgerbuilder") });
   };
 
   render() {
+    console.log(this.props);
+
     let checkoutsummary = this.state.error ? (
       <p>Something went wrong!</p>
     ) : (
@@ -53,11 +62,20 @@ class Checkout extends Component {
         <CheckoutSummary
           ingredients={this.state.ingredients}
           cancelCheckout={this.cancelHandler}
+          continousCheckout={this.continousHandler}
         />
       );
     }
 
-    return <div>{checkoutsummary}</div>;
+    return (
+      <div>
+        {checkoutsummary}
+        <Route
+          path={this.props.match.url + "/contact-data"}
+          component={ContactData}
+        />
+      </div>
+    );
   }
 }
 
