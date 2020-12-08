@@ -5,8 +5,6 @@ import Button from "../UI/Button/Button";
 import classes from "./CheckoutSummary.module.css";
 
 const CheckoutSummary = (props) => {
-  console.log(props.continousCheckout);
-
   return (
     <div className={classes.Checkout}>
       <h1>We hope it tastes well!</h1>

@@ -31,12 +31,14 @@ class BurgerBuilder extends Component {
   };
 
   componentDidMount = () => {
-    axios
-      .get("ingredients.json")
-      .then((response) => this.setState({ ingredients: response.data }))
-      .catch((error) => {
-        this.setState({ error: true });
-      });
+    if (!this.state.ingredients) {
+      axios
+        .get("ingredients.json")
+        .then((response) => this.setState({ ingredients: response.data }))
+        .catch((error) => {
+          this.setState({ error: true });
+        });
+    }
   };
 
   addIngredientHandler = (type) => {
@@ -132,6 +134,8 @@ class BurgerBuilder extends Component {
   };
 
   render() {
+    console.log(this.state.ingredients);
+
     const disableInfo = {
       ...this.state.ingredients,
     };
