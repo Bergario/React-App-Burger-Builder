@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import CheckoutSummary from "../../components/Order/CheckoutSummary";
+import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 // import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import ContactData from "./ContactData/ContactData";
