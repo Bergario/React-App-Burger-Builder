@@ -1,8 +1,16 @@
 .Order{
-    width: 100%;
+    width: 80%;
     margin: 10px auto;
     padding: 10px;
     box-shadow: 0 2px 3px #eee;
     border: 3px solid #ccc;
     box-sizing: border-box;
+}
+
+.Order span{
+    margin: 0 8px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 3px #eee;
+    display: inline-block;
 }
