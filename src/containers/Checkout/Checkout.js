@@ -48,8 +48,6 @@ class Checkout extends Component {
   };
 
   render() {
-    console.log(this.state.price);
-
     let checkoutsummary = this.state.error ? (
       <p>Something went wrong!</p>
     ) : (

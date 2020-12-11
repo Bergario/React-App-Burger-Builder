@@ -3,15 +3,15 @@
     width: 80%;
     text-align: center;
      border: 3px rgba(197, 197, 197, 0.933);
-     box-shadow: 0 2px 5px rgba(189, 187, 187, 0.8);
-     padding: 10px;
+     box-shadow: 0 2px 5px rgba(143, 134, 134, 0.8);
      box-sizing: border-box;
 }
 
-.Input{
-    display: block;
-    
+.Contact h4{
+    padding: 10px;
+    font-size: inherit;
 }
+
 
 @media(min-width:600px){
     .Contact{

@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import Order from "../../components/Order/Order";
-import Axios from "../../axios-orders";
+import axios from "../../axios-orders";
+import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
-export default class Orders extends Component {
+class Orders extends Component {
   state = {
     orders: [],
     loader: true,
+    error: null,
   };
   componentDidMount() {
-    Axios.get("orders.json")
+    axios
+      .get("orders.json")
       .then((response) => {
         let orders = [];
         for (let key in response.data) {
@@ -16,11 +19,13 @@ export default class Orders extends Component {
         }
         this.setState({ loader: false, orders });
       })
-      .catch((err) => err);
+      .catch((err) => this.setState({ error: err, loader: true }));
   }
 
   render() {
-    const Orders = this.state.orders.map((order) => {
+    console.log(this.state.loader);
+
+    let Orders = this.state.orders.map((order) => {
       return (
         <Order
           key={order.id}
@@ -30,6 +35,12 @@ export default class Orders extends Component {
       );
     });
 
+    if (this.state.error) {
+      Orders = <p style={{ margin: "10px" }}>Orders can't be loaded!</p>;
+    }
+
     return <div>{Orders}</div>;
   }
 }
+
+export default withErrorHandler(Orders, axios);

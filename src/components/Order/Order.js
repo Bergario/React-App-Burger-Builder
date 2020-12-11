@@ -4,7 +4,7 @@ import classes from "./Order.module.css";
 const Order = (props) => {
   let ingredients = [];
   for (let ing in props.ingredients) {
-    ingredients.push(ing + "  " + "(" + props.ingredients[ing] + ") ");
+    ingredients.push(ing + " (" + props.ingredients[ing] + ") ");
   }
   return (
     <div className={classes.Order}>
