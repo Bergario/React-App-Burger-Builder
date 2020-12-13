@@ -44,7 +44,7 @@ class Checkout extends Component {
   };
 
   cancelHandler = () => {
-    this.setState({ cancel: this.props.history.goBack("/burgerbuilder") });
+    this.setState({ cancel: this.props.history.goBack() });
   };
 
   render() {

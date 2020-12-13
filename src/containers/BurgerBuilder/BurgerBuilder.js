@@ -31,13 +31,19 @@ class BurgerBuilder extends Component {
   };
 
   componentDidMount = () => {
-    axios
-      .get("ingredients.json")
-      .then((response) => this.setState({ ingredients: response.data }))
-      .catch((error) => {
-        this.setState({ error: true });
-      });
+    if (this.state.ingredients === null) {
+      axios
+        .get("ingredients.json")
+        .then((response) => this.setState({ ingredients: response.data }))
+        .catch((error) => {
+          this.setState({ error: true });
+        });
+    }
   };
+
+  componentDidUpdate() {
+    console.log(this.state.ingredients);
+  }
 
   addIngredientHandler = (type) => {
     const oldCount = this.state.ingredients[type];
