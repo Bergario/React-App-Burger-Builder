@@ -14,6 +14,10 @@ class ContactData extends Component {
           placeholder: "Your Name",
         },
         value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
       },
       email: {
         elementType: "input",
@@ -22,6 +26,10 @@ class ContactData extends Component {
           placeholder: "Your Mail",
         },
         value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
       },
       street: {
         elementType: "input",
@@ -30,6 +38,10 @@ class ContactData extends Component {
           placeholder: "Street",
         },
         value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
       },
       postalCode: {
         elementType: "input",
@@ -38,6 +50,10 @@ class ContactData extends Component {
           placeholder: "Postal Code",
         },
         value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
       },
       country: {
         elementType: "input",
@@ -46,6 +62,10 @@ class ContactData extends Component {
           placeholder: "Country",
         },
         value: "",
+        validation: {
+          required: true,
+        },
+        valid: false,
       },
       dileveryMethod: {
         elementType: "select",
@@ -94,9 +114,22 @@ class ContactData extends Component {
     };
 
     updateFormElement.value = event.target.value;
+    updateFormElement.valid = this.checkValidity(
+      updateFormElement.value,
+      updateFormElement.validation
+    );
     updateOrderForm[inputIdentifier] = updateFormElement;
     this.setState({ orderForm: updateOrderForm });
     console.log(updateOrderForm);
+  };
+
+  checkValidity = (value, validation) => {
+    let isValid = false;
+
+    if (validation.required) {
+      isValid = value.trim() !== "";
+    }
+    return isValid;
   };
 
   render() {
