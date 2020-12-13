@@ -1,9 +1,13 @@
 .Checkout {
     text-align: center;
-    color: #CF8F2E;
+    color:green;
     margin: auto;
     width: 80%;
     font-size: 0.8rem;
+}
+
+.Checkout p{
+    color: black;
 }
 
 

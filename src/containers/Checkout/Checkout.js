@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import CheckoutSummary from "../../components/Order/CheckoutSummary";
+import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 // import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import ContactData from "./ContactData/ContactData";
@@ -48,8 +48,6 @@ class Checkout extends Component {
   };
 
   render() {
-    console.log(this.state.price);
-
     let checkoutsummary = this.state.error ? (
       <p>Something went wrong!</p>
     ) : (
@@ -79,10 +77,11 @@ class Checkout extends Component {
         {checkoutsummary}
         <Route
           path={this.props.match.url + "/contact-data"}
-          render={() => (
+          render={(props) => (
             <ContactData
               ingredients={this.state.ingredients}
               totalPrice={this.state.price}
+              {...props}
             />
           )}
         />
