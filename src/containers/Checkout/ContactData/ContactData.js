@@ -20,6 +20,7 @@ class ContactData extends Component {
           maxLength: 15,
         },
         valid: false,
+        touched: false,
       },
       email: {
         elementType: "input",
@@ -34,6 +35,7 @@ class ContactData extends Component {
           maxLength: 15,
         },
         valid: false,
+        touched: false,
       },
       street: {
         elementType: "input",
@@ -48,6 +50,7 @@ class ContactData extends Component {
           maxLength: 20,
         },
         valid: false,
+        touched: false,
       },
       postalCode: {
         elementType: "input",
@@ -62,6 +65,7 @@ class ContactData extends Component {
           maxLength: 15,
         },
         valid: false,
+        touched: false,
       },
       country: {
         elementType: "input",
@@ -76,6 +80,7 @@ class ContactData extends Component {
           maxLength: 15,
         },
         valid: false,
+        touched: false,
       },
       dileveryMethod: {
         elementType: "select",
@@ -85,11 +90,16 @@ class ContactData extends Component {
             { value: "cheapest", displayValue: "Cheapest" },
           ],
         },
+        validation: {
+          required: true,
+        },
         value: "",
         valid: false,
+        touched: false,
       },
     },
     loader: true,
+    formIsValid: false,
   };
 
   orderHandler = (event) => {
@@ -106,13 +116,25 @@ class ContactData extends Component {
       totalPrice: this.props.totalPrice,
       orderData: formData,
     };
-    axios
-      .post("/orders.json", order)
-      .then((response) => {
-        this.setState({ loader: false });
-        this.props.history.push("/");
-      })
-      .catch((error) => this.setState({ loader: false }));
+
+    if (this.state.formIsValid) {
+      axios
+        .post("/orders.json", order)
+        .then((response) => {
+          this.setState({ loader: false });
+          this.props.history.push("/");
+        })
+        .catch((error) => this.setState({ loader: false }));
+    } else {
+      const updateOrderForm = {
+        ...this.state.orderForm,
+      };
+      for (let key in updateOrderForm) {
+        const touched = updateOrderForm[key];
+        touched.touched = true;
+        this.setState({ touched: touched.touched });
+      }
+    }
   };
 
   inputChangeHandler = (event, inputIdentifier) => {
@@ -129,9 +151,14 @@ class ContactData extends Component {
       updateFormElement.value,
       updateFormElement.validation
     );
+    updateFormElement.touched = true;
     updateOrderForm[inputIdentifier] = updateFormElement;
-    this.setState({ orderForm: updateOrderForm });
-    console.log(updateFormElement);
+
+    let formIsValid = true;
+    for (let key in updateOrderForm) {
+      formIsValid = updateOrderForm[key].valid && formIsValid;
+    }
+    this.setState({ orderForm: updateOrderForm, formIsValid });
   };
 
   checkValidity = (value, validation) => {
@@ -151,6 +178,8 @@ class ContactData extends Component {
   };
 
   render() {
+    console.log(this.state.formIsValid);
+
     let orderFormArray = [];
     for (let key in this.state.orderForm) {
       orderFormArray.push({
@@ -164,8 +193,6 @@ class ContactData extends Component {
         <h4>Enter Your Contact Data</h4>
         <form>
           {orderFormArray.map((element) => {
-            console.log(element.config.validation);
-
             return (
               <Input
                 key={element.id}
@@ -174,6 +201,8 @@ class ContactData extends Component {
                 value={element.config.value}
                 inValid={!element.config.valid}
                 shouldValidate={element.config.validation}
+                touched={element.config.touched}
+                error={element.id}
                 changed={(event) => this.inputChangeHandler(event, element.id)}
               />
             );
