@@ -16,6 +16,8 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          minLength: 2,
+          maxLength: 15,
         },
         valid: false,
       },
@@ -28,6 +30,8 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          minLength: 2,
+          maxLength: 15,
         },
         valid: false,
       },
@@ -40,6 +44,8 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          minLength: 2,
+          maxLength: 20,
         },
         valid: false,
       },
@@ -52,6 +58,8 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          minLength: 2,
+          maxLength: 15,
         },
         valid: false,
       },
@@ -64,6 +72,8 @@ class ContactData extends Component {
         value: "",
         validation: {
           required: true,
+          minLength: 2,
+          maxLength: 15,
         },
         valid: false,
       },
@@ -76,6 +86,7 @@ class ContactData extends Component {
           ],
         },
         value: "",
+        valid: false,
       },
     },
     loader: true,
@@ -120,15 +131,22 @@ class ContactData extends Component {
     );
     updateOrderForm[inputIdentifier] = updateFormElement;
     this.setState({ orderForm: updateOrderForm });
-    console.log(updateOrderForm);
+    console.log(updateFormElement);
   };
 
   checkValidity = (value, validation) => {
-    let isValid = false;
+    let isValid = true;
 
     if (validation.required) {
-      isValid = value.trim() !== "";
+      isValid = value.trim() !== "" && isValid;
     }
+    if (validation.maxLength) {
+      isValid = value.length <= validation.maxLength && isValid;
+    }
+    if (validation.minLength) {
+      isValid = value.length > validation.minLength && isValid;
+    }
+
     return isValid;
   };
 
@@ -146,12 +164,16 @@ class ContactData extends Component {
         <h4>Enter Your Contact Data</h4>
         <form>
           {orderFormArray.map((element) => {
+            console.log(element.config.validation);
+
             return (
               <Input
                 key={element.id}
                 elementtype={element.config.elementType}
                 elementConfig={element.config.elementConfig}
                 value={element.config.value}
+                inValid={!element.config.valid}
+                shouldValidate={element.config.validation}
                 changed={(event) => this.inputChangeHandler(event, element.id)}
               />
             );

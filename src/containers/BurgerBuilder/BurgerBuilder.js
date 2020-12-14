@@ -42,7 +42,7 @@ class BurgerBuilder extends Component {
   };
 
   componentDidUpdate() {
-    console.log(this.state.ingredients);
+    console.log("componentDidUpdate");
   }
 
   addIngredientHandler = (type) => {
@@ -100,24 +100,6 @@ class BurgerBuilder extends Component {
 
   purchaseContinueHandler = () => {
     this.setState({ loader: true });
-    // const order = {
-    //   ingredients: this.state.ingredients,
-    //   totalPrice: this.state.totalPrice,
-    //   customer: {
-    //     name: "Bemby",
-    //     address: {
-    //       street: "Yogyakarta",
-    //       zipCode: "59155",
-    //       country: "Indonesia",
-    //     },
-    //     email: "asudah@test.com",
-    //   },
-    //   deliveryMethod: "fastest",
-    // };
-    // axios
-    //   .post("/orders.json", order)
-    //   .then((response) => this.setState({ loader: false, purchase: false }))
-    //   .catch((error) => this.setState({ loader: false, purchase: false }));
 
     const queryParams = [];
     for (let i in this.state.ingredients) {
