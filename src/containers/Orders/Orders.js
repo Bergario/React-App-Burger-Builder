@@ -4,6 +4,7 @@ import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { connect } from "react-redux";
 import * as orderActions from "../../store/actions/index";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Orders extends Component {
   state = {
@@ -15,20 +16,19 @@ class Orders extends Component {
 
   render() {
     console.log(this.state.loader);
-
-    let Orders = this.props.orders.map((order) => {
-      console.log(order);
-      return (
-        <Order
-          key={order.id}
-          ingredients={order.ingredients}
-          price={order.totalPrice}
-          name={order.orderData.name}
-        />
-      );
-    });
-    if (!this.props.orders) {
-      Orders = null;
+    let Orders = <Spinner margin="300px auto" />;
+    if (this.props.orders) {
+      Orders = this.props.orders.map((order) => {
+        console.log(order);
+        return (
+          <Order
+            key={order.id}
+            ingredients={order.ingredients}
+            price={order.totalPrice}
+            name={order.orderData.name}
+          />
+        );
+      });
     }
 
     if (this.state.error) {
