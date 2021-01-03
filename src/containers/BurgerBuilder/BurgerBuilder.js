@@ -1,78 +1,28 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import * as actionTypes from "../../store/actions";
+import * as burgerBuilderActions from "../../store/actions/index";
 import Auxiliary from "../../hoc/Auxiliary/Auxiliary";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
-import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import axios from "../../axios-orders";
 
 class BurgerBuilder extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {};
-  // }
-
   state = {
     purchase: false,
-    loader: false,
-    error: false,
   };
 
   componentDidMount = () => {
-    // if (!this.state.ingredients) {
-    //   axios
-    //     .get("ingredients.json")
-    //     .then((response) => this.setState({ ingredients: response.data }))
-    //     .catch((error) => {
-    //       this.setState({ error: true });
-    //     });
-    // }
+    this.props.onIntIngredients();
   };
 
   componentDidUpdate() {
     console.log("componentDidUpdate");
   }
-
-  // addIngredientHandler = (type) => {
-  //   const oldCount = this.props.ings[type];
-  //   const updateCount = oldCount + 1;
-  //   const updateIngredients = {
-  //     ...this.props.ings,
-  //   };
-  //   updateIngredients[type] = updateCount;
-
-  //   const priceAddition = INGREDIENTS_PRICE[type];
-  //   const oldPrice = this.state.totalPrice;
-  //   const price = oldPrice + priceAddition;
-  //   const newPrice = Math.round(price * 100) / 100;
-
-  //   this.setState({ ingredients: updateIngredients, totalPrice: newPrice });
-  //   this.updatePurchaseState(updateIngredients);
-  // };
-
-  // removeIngredientHandler = (type) => {
-  //   const oldCount = this.props.ings[type];
-  //   const updateIngredients = {
-  //     ...this.props.ings,
-  //   };
-  //   if (oldCount > 0) {
-  //     const updateCount = oldCount - 1;
-  //     updateIngredients[type] = updateCount;
-
-  //     const priceAddition = INGREDIENTS_PRICE[type];
-  //     const oldPrice = this.state.totalPrice;
-  //     const price = oldPrice - priceAddition;
-  //     const newPrice = Math.round(price * 10) / 10;
-
-  //     this.setState({ ingredients: updateIngredients, totalPrice: newPrice });
-  //   }
-  //   this.updatePurchaseState(updateIngredients);
-  // };
 
   updatePurchaseState = (ingredients) => {
     const sum = Object.keys(ingredients)
@@ -105,7 +55,7 @@ class BurgerBuilder extends Component {
 
     let OrderSummarys = null;
 
-    let burger = this.state.error ? (
+    let burger = this.props.error ? (
       <p>Ingredients can't be loaded!</p>
     ) : (
       <Spinner margin="300px auto" />
@@ -151,24 +101,21 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
-    ings: state.ingredients,
-    totalPrc: state.totalPrice,
+    ings: state.builder.ingredients,
+    totalPrc: state.builder.totalPrice,
+    error: state.builder.error,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onIngredientAdded: (ingName) =>
-      dispatch({
-        type: actionTypes.ADD_INGREDIENT,
-        ingredientName: ingName,
-      }),
+      dispatch(burgerBuilderActions.addIngredient(ingName)),
     onIngredientRemoved: (ingName) =>
-      dispatch({
-        type: actionTypes.REMOVE_INGREDIENT,
-        ingredientName: ingName,
-      }),
+      dispatch(burgerBuilderActions.removeIngredient(ingName)),
+    onIntIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
   };
 };
 

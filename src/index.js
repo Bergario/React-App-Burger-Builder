@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import thunk from "redux-thunk";
@@ -8,7 +8,13 @@ import thunk from "redux-thunk";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import reducer from "./store/reducer";
+import buillderReducer from "./store/reducer/burgerBuilder";
+import orderReducer from "./store/reducer/order";
+
+const rootReducer = combineReducers({
+  builder: buillderReducer,
+  orders: orderReducer,
+});
 
 const logger = (store) => {
   return (next) => {
@@ -24,7 +30,7 @@ const logger = (store) => {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  reducer,
+  rootReducer,
   composeEnhancers(applyMiddleware(logger, thunk))
 );
 
