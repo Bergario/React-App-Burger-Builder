@@ -199,7 +199,7 @@ class ContactData extends Component {
                 inValid={!element.config.valid}
                 shouldValidate={element.config.validation}
                 touched={element.config.touched}
-                error={element.id}
+                error={`Please enter a valid ` + element.id}
                 changed={(event) => this.inputChangeHandler(event, element.id)}
               />
             );

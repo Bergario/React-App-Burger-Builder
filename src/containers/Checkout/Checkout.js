@@ -4,7 +4,7 @@ import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSumm
 // import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import ContactData from "./ContactData/ContactData";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
 class Checkout extends Component {
   state = {
@@ -28,11 +28,7 @@ class Checkout extends Component {
     );
 
     if (this.props.ings == null) {
-      checkoutsummary = (
-        <div style={{ margin: "300px auto" }}>
-          <Spinner />
-        </div>
-      );
+      checkoutsummary = <Redirect to="/" />;
     } else {
       checkoutsummary = (
         <CheckoutSummary
@@ -56,7 +52,6 @@ class Checkout extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     ings: state.builder.ingredients,
     totalPrc: state.builder.totalPrice,

@@ -5,12 +5,11 @@ const Input = (props) => {
   let inputElement = null;
   let inputClasses = [classes.InputElement];
   let errorElement = null;
+  console.log(props.touched);
 
   if (props.inValid && props.shouldValidate && props.touched) {
     inputClasses.push(classes.Invalid);
-    errorElement = (
-      <p className={classes.Errormessage}>Please enter a valid {props.error}</p>
-    );
+    errorElement = <p className={classes.Errormessage}>{props.error}</p>;
   }
 
   switch (props.elementtype) {

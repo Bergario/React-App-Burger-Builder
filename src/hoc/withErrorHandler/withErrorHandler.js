@@ -36,8 +36,6 @@ const withErrorHandler = (WrappedComponent, axios) => {
       this.setState({ error: null });
     };
     render() {
-      console.log(this.state.error);
-
       return (
         <Auxiliary>
           <Modal show={this.state.error} purchase={this.errorConfirmHanlder}>

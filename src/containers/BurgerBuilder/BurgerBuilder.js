@@ -20,10 +20,6 @@ class BurgerBuilder extends Component {
     this.props.onIntIngredients();
   };
 
-  componentDidUpdate() {
-    console.log("componentDidUpdate");
-  }
-
   updatePurchaseState = (ingredients) => {
     const sum = Object.keys(ingredients)
       .map((igKey) => {
@@ -101,7 +97,6 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     ings: state.builder.ingredients,
     totalPrc: state.builder.totalPrice,

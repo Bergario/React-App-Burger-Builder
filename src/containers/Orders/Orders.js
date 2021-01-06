@@ -7,31 +7,36 @@ import * as orderActions from "../../store/actions/index";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Orders extends Component {
-  state = {
-    loader: true,
-  };
   componentDidMount() {
-    this.props.onStartOrderData();
+    this.props.onFetchOrderData();
   }
 
   render() {
-    console.log(this.state.loader);
-    let Orders = <Spinner margin="300px auto" />;
+    let Orders = this.props.loader ? <Spinner margin="300px auto" /> : null;
+    console.log(this.props.orders);
+
     if (this.props.orders) {
-      Orders = this.props.orders.map((order) => {
-        console.log(order);
-        return (
-          <Order
-            key={order.id}
-            ingredients={order.ingredients}
-            price={order.totalPrice}
-            name={order.orderData.name}
-          />
+      if (this.props.orders.length == 0) {
+        Orders = (
+          <p style={{ padding: "100px", textAlign: "center" }}>
+            Order Data is Empty
+          </p>
         );
-      });
+      } else {
+        Orders = this.props.orders.map((order) => {
+          return (
+            <Order
+              key={order.id}
+              ingredients={order.ingredients}
+              price={order.totalPrice}
+              name={order.orderData.name}
+            />
+          );
+        });
+      }
     }
 
-    if (this.state.error) {
+    if (this.props.error) {
       Orders = <p style={{ margin: "10px" }}>Orders can't be loaded!</p>;
     }
 
@@ -42,11 +47,12 @@ class Orders extends Component {
 const mapStateToProps = (state) => ({
   orders: state.orders.orderData,
   loader: state.orders.loading,
+  error: state.orders.error,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onStartOrderData: () => dispatch(orderActions.startOrderData()),
+    onFetchOrderData: () => dispatch(orderActions.fetchOrderData()),
   };
 };
 

@@ -19,9 +19,7 @@ const rootReducer = combineReducers({
 const logger = (store) => {
   return (next) => {
     return (action) => {
-      console.log("ACTION", action);
       const result = next(action);
-      console.log("RESULT", result);
       return result;
     };
   };

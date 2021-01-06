@@ -7,5 +7,5 @@ export {
 export {
   purchaseBurgerStart,
   purchaseBurgerFail,
-  startOrderData,
+  fetchOrderData,
 } from "./order";
