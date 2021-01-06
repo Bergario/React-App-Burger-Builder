@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import classes from "./Auth.module.css";
+import * as actions from "../../store/actions/index";
+import { connect } from "react-redux";
 
-export default class Auth extends Component {
+class Auth extends Component {
   state = {
     orderForm: {
       email: {
@@ -19,6 +21,7 @@ export default class Auth extends Component {
         },
         valid: false,
         touched: false,
+        value: "",
       },
       password: {
         elementType: "password",
@@ -33,6 +36,7 @@ export default class Auth extends Component {
         },
         valid: false,
         touched: false,
+        value: "",
       },
     },
     formIsValid: false,
@@ -46,6 +50,7 @@ export default class Auth extends Component {
     const updateFormElement = {
       ...updateOrderForm[inputIdentifier],
     };
+    console.log(event.target.value);
 
     updateFormElement.value = event.target.value;
     updateFormElement.valid = this.checkValidity(
@@ -64,13 +69,10 @@ export default class Auth extends Component {
 
   checkValidity = (value, validation) => {
     let isValid = true;
-
     if (validation.required) {
       isValid = value.trim() !== "" && isValid;
     }
-    if (validation.maxLength) {
-      isValid = value.length <= validation.maxLength && isValid;
-    }
+    console.log(isValid);
     if (validation.minLength) {
       isValid = value.length > validation.minLength && isValid;
     }
@@ -78,9 +80,27 @@ export default class Auth extends Component {
     return isValid;
   };
 
-  render() {
-    console.log(this.state.orderForm.email.touched);
+  submitHandler = (event) => {
+    event.preventDefault();
+    console.log(this.state.formIsValid);
+    if (this.state.formIsValid) {
+      this.props.onAuth(
+        this.state.orderForm.email.value,
+        this.state.orderForm.password.value
+      );
+    } else {
+      const updateOrderForm = {
+        ...this.state.orderForm,
+      };
+      for (let key in updateOrderForm) {
+        const touched = updateOrderForm[key];
+        touched.touched = true;
+        this.setState({ touched: touched.touched });
+      }
+    }
+  };
 
+  render() {
     let orderFormArray = [];
     for (let key in this.state.orderForm) {
       orderFormArray.push({
@@ -90,8 +110,6 @@ export default class Auth extends Component {
     }
 
     const form = orderFormArray.map((element) => {
-      console.log(element.config.touched);
-
       return (
         <Input
           key={element.id}
@@ -110,8 +128,20 @@ export default class Auth extends Component {
     return (
       <div className={classes.Auth}>
         {form}
-        <Button btnType="Success">Login</Button>
+        <Button clicked={this.submitHandler} btnType="Success">
+          Submit
+        </Button>
       </div>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuth: (email, password) => {
+      dispatch(actions.auth(email, password));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Auth);

@@ -9,3 +9,4 @@ export {
   purchaseBurgerFail,
   fetchOrderData,
 } from "./order";
+export { auth } from "./auth";

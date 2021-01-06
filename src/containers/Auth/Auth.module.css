@@ -1,10 +1,14 @@
 .Auth {
-    margin: 20px auto;
+    margin: auto;
     width: 80%;
     text-align: center;
     border: 3px rgba(197, 197, 197, 0.933);
     box-shadow: 0 2px 5px rgba(143, 134, 134, 0.8);
     box-sizing: border-box;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 20%;
 }
 
 .Auth label{

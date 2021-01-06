@@ -5,7 +5,6 @@ const Input = (props) => {
   let inputElement = null;
   let inputClasses = [classes.InputElement];
   let errorElement = null;
-  console.log(props.touched);
 
   if (props.inValid && props.shouldValidate && props.touched) {
     inputClasses.push(classes.Invalid);
@@ -40,8 +39,7 @@ const Input = (props) => {
         <select
           className={inputClasses.join(" ")}
           {...props.elementConfig}
-          onChange={props.changed}
-        >
+          onChange={props.changed}>
           <option value="">Select ...</option>
           {props.elementConfig.option.map((option) => (
             <option key={option.value} value={option.value}>

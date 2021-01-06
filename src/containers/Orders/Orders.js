@@ -13,10 +13,8 @@ class Orders extends Component {
 
   render() {
     let Orders = this.props.loader ? <Spinner margin="300px auto" /> : null;
-    console.log(this.props.orders);
-
-    if (this.props.orders) {
-      if (this.props.orders.length == 0) {
+    if (!this.props.loader) {
+      if (this.props.orders.length === 0) {
         Orders = (
           <p style={{ padding: "100px", textAlign: "center" }}>
             Order Data is Empty
