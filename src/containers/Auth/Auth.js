@@ -9,7 +9,7 @@ class Auth extends Component {
   state = {
     orderForm: {
       email: {
-        elementType: "email",
+        elementType: "input",
         elementConfig: {
           type: "email",
           placeholder: "Email Address",
@@ -17,21 +17,21 @@ class Auth extends Component {
         validation: {
           required: true,
           error: "Input a valid Email!",
-          minLength: 2,
+          minLength: 0,
         },
         valid: false,
         touched: false,
         value: "",
       },
       password: {
-        elementType: "password",
+        elementType: "input",
         elementConfig: {
           type: "password",
           placeholder: "password",
         },
         validation: {
           required: true,
-          minLength: 6,
+          minLength: 0,
           error: "Password too low!",
         },
         valid: false,
