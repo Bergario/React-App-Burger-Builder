@@ -5,6 +5,7 @@ import classes from "./Auth.module.css";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import { Redirect } from "react-router-dom";
 
 class Auth extends Component {
   state = {
@@ -41,7 +42,7 @@ class Auth extends Component {
       },
     },
     formIsValid: false,
-    isSignUp: true,
+    isSignUp: false,
   };
 
   inputChangeHandler = (event, inputIdentifier) => {
@@ -115,28 +116,41 @@ class Auth extends Component {
       });
     }
 
-    let form = this.props.loading ? <Spinner /> : null;
+    let form = orderFormArray.map((element) => {
+      return (
+        <Input
+          key={element.id}
+          elementtype={element.config.elementType}
+          elementConfig={element.config.elementConfig}
+          value={element.config.value}
+          inValid={!element.config.valid}
+          shouldValidate={element.config.validation}
+          touched={element.config.touched}
+          error={element.config.validation.error}
+          changed={(event) => this.inputChangeHandler(event, element.id)}
+        />
+      );
+    });
 
-    if (!this.props.loading) {
-      form = orderFormArray.map((element) => {
-        return (
-          <Input
-            key={element.id}
-            elementtype={element.config.elementType}
-            elementConfig={element.config.elementConfig}
-            value={element.config.value}
-            inValid={!element.config.valid}
-            shouldValidate={element.config.validation}
-            touched={element.config.touched}
-            error={element.config.validation.error}
-            changed={(event) => this.inputChangeHandler(event, element.id)}
-          />
-        );
-      });
+    if (this.props.loading) {
+      form = <Spinner />;
+    }
+
+    let errorMessage = null;
+
+    if (this.props.error) {
+      errorMessage = <p style={{ color: "#c10c0c" }}>{this.props.error}</p>;
+    }
+
+    let authRedirect = null;
+    if (this.props.isAuth) {
+      authRedirect = <Redirect to="/" />;
     }
 
     return (
       <div className={classes.Auth}>
+        {authRedirect}
+        {errorMessage}
         {form}
         <Button clicked={this.submitHandler} btnType="Success">
           {this.state.isSignUp ? "Sign In" : "Sign Up"}
@@ -156,6 +170,7 @@ const mapStateToProps = (state) => {
     tokenId: state.auth.tokenId,
     userId: state.auth.userId,
     error: state.auth.error,
+    isAuth: state.auth.tokenId !== null,
   };
 };
 

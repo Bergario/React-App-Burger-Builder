@@ -34,7 +34,11 @@ class BurgerBuilder extends Component {
 
   purchaseHanlder = (event) => {
     event.preventDefault();
-    this.setState({ purchase: !this.state.purchase });
+    if (this.props.isAuth) {
+      this.setState({ purchase: !this.state.purchase });
+    } else {
+      this.props.history.push("/auth");
+    }
   };
 
   purchaseContinueHandler = () => {
@@ -68,6 +72,7 @@ class BurgerBuilder extends Component {
             purchasable={this.updatePurchaseState(this.props.ings)}
             purchase={this.purchaseHanlder}
             disabled={disableInfo}
+            isAuthenticated={this.props.isAuth}
           />
         </Auxiliary>
       );
@@ -101,6 +106,7 @@ const mapStateToProps = (state) => {
     ings: state.builder.ingredients,
     totalPrc: state.builder.totalPrice,
     error: state.builder.error,
+    isAuth: state.auth.tokenId !== null,
   };
 };
 

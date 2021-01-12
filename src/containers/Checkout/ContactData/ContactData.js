@@ -121,7 +121,7 @@ class ContactData extends Component {
     };
 
     if (this.state.formIsValid) {
-      this.props.onPurchaseBurgerStart(order);
+      this.props.onPurchaseBurgerStart(order, this.props.token);
       this.props.history.push("/");
     } else {
       const updateOrderForm = {
@@ -217,13 +217,14 @@ const mapStateToProps = (state) => {
     ings: state.builder.ingredients,
     totalPrc: state.builder.totalPrice,
     loader: state.orders.loader,
+    token: state.auth.tokenId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onPurchaseBurgerStart: (orderData) =>
-      dispatch(orderActions.purchaseBurgerStart(orderData)),
+    onPurchaseBurgerStart: (orderData, token) =>
+      dispatch(orderActions.purchaseBurgerStart(orderData, token)),
   };
 };
 

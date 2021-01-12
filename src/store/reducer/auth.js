@@ -23,6 +23,10 @@ const authFail = (state, action) => {
   return objectUpdate(state, { error: action.error, loading: false });
 };
 
+const authLogout = (state, action) => {
+  return objectUpdate(state, { tokenId: null, userId: null, loading: false });
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
@@ -31,6 +35,8 @@ export default (state = initialState, action) => {
       return authSuccess(state, action);
     case actionTypes.AUTH_FAIL:
       return authFail(state, action);
+    case actionTypes.AUTH_LOGOUT:
+      return authLogout(state, action);
 
     default:
       return state;
