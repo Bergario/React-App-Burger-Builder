@@ -9,4 +9,4 @@ export {
   purchaseBurgerFail,
   fetchOrderData,
 } from "./order";
-export { auth, logout, setAuthRedirectPath } from "./auth";
+export { auth, logout, setAuthRedirectPath, authCheckState } from "./auth";

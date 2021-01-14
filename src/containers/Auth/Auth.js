@@ -45,6 +45,12 @@ class Auth extends Component {
     isSignUp: false,
   };
 
+  componentDidMount() {
+    if (!this.props.buildingBurger && this.props.authRedirectPath !== "/") {
+      return this.props.onSetAuthRedirectPath();
+    }
+  }
+
   inputChangeHandler = (event, inputIdentifier) => {
     const updateOrderForm = {
       ...this.state.orderForm,
@@ -181,6 +187,7 @@ const mapDispatchToProps = (dispatch) => {
     onAuth: (email, password, isSignUp) => {
       dispatch(actions.auth(email, password, isSignUp));
     },
+    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/")),
   };
 };
 
