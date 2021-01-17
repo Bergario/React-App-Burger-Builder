@@ -8,7 +8,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Orders extends Component {
   componentDidMount() {
-    this.props.onFetchOrderData(this.props.token);
+    this.props.onFetchOrderData(this.props.token, this.props.userId);
   }
 
   render() {
@@ -37,7 +37,6 @@ class Orders extends Component {
     if (this.props.error) {
       Orders = <p style={{ margin: "10px" }}>Orders can't be loaded!</p>;
     }
-
     return <div>{Orders}</div>;
   }
 }
@@ -47,11 +46,13 @@ const mapStateToProps = (state) => ({
   loader: state.orders.loading,
   error: state.orders.error,
   token: state.auth.tokenId,
+  userId: state.auth.userId,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchOrderData: (token) => dispatch(orderActions.fetchOrderData(token)),
+    onFetchOrderData: (token, userId) =>
+      dispatch(orderActions.fetchOrderData(token, userId)),
   };
 };
 

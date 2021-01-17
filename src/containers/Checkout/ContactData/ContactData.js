@@ -6,6 +6,7 @@ import axios from "../../../axios-orders";
 import Input from "../../../components/UI/Input/Input";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 import * as orderActions from "../../../store/actions/index";
+import { objectUpdate } from "../../../shared/utility";
 
 class ContactData extends Component {
   state = {
@@ -118,6 +119,7 @@ class ContactData extends Component {
       ingredients: this.props.ings,
       totalPrice: this.props.totalPrc,
       orderData: formData,
+      userId: this.props.userId,
     };
 
     if (this.state.formIsValid) {
@@ -136,21 +138,21 @@ class ContactData extends Component {
   };
 
   inputChangeHandler = (event, inputIdentifier) => {
-    const updateOrderForm = {
-      ...this.state.orderForm,
-    };
-
-    const updateFormElement = {
-      ...updateOrderForm[inputIdentifier],
-    };
-
-    updateFormElement.value = event.target.value;
-    updateFormElement.valid = this.checkValidity(
-      updateFormElement.value,
-      updateFormElement.validation
+    const updateFormElement = objectUpdate(
+      this.state.orderForm[inputIdentifier],
+      {
+        value: event.target.value,
+        touched: true,
+        valid: this.checkValidity(
+          event.target.value,
+          this.state.orderForm[inputIdentifier].validation
+        ),
+      }
     );
-    updateFormElement.touched = true;
-    updateOrderForm[inputIdentifier] = updateFormElement;
+
+    const updateOrderForm = objectUpdate(this.state.orderForm, {
+      [inputIdentifier]: updateFormElement,
+    });
 
     let formIsValid = true;
     for (let key in updateOrderForm) {
@@ -218,6 +220,7 @@ const mapStateToProps = (state) => {
     totalPrc: state.builder.totalPrice,
     loader: state.orders.loader,
     token: state.auth.tokenId,
+    userId: state.auth.userId,
   };
 };
 

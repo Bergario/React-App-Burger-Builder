@@ -6,6 +6,7 @@ import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { Redirect } from "react-router-dom";
+import { objectUpdate } from "../../shared/utility";
 
 class Auth extends Component {
   state = {
@@ -52,21 +53,21 @@ class Auth extends Component {
   }
 
   inputChangeHandler = (event, inputIdentifier) => {
-    const updateOrderForm = {
-      ...this.state.orderForm,
-    };
-
-    const updateFormElement = {
-      ...updateOrderForm[inputIdentifier],
-    };
-
-    updateFormElement.value = event.target.value;
-    updateFormElement.valid = this.checkValidity(
-      updateFormElement.value,
-      updateFormElement.validation
+    const updateFormElement = objectUpdate(
+      this.state.orderForm[inputIdentifier],
+      {
+        value: event.target.value,
+        touched: true,
+        valid: this.checkValidity(
+          event.target.value,
+          this.state.orderForm[inputIdentifier].validation
+        ),
+      }
     );
-    updateFormElement.touched = true;
-    updateOrderForm[inputIdentifier] = updateFormElement;
+
+    const updateOrderForm = objectUpdate(this.state.orderForm, {
+      [inputIdentifier]: updateFormElement,
+    });
 
     let formIsValid = true;
     for (let key in updateOrderForm) {
