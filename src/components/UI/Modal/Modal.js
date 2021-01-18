@@ -11,9 +11,6 @@ export class Modal extends Component {
     );
   }
 
-  componentDidUpdate() {
-    console.log("[modal] willUpdate");
-  }
   render() {
     return (
       <Auxiliary>
