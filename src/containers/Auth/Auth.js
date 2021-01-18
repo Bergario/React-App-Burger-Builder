@@ -6,7 +6,7 @@ import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { Redirect } from "react-router-dom";
-import { objectUpdate } from "../../shared/utility";
+import { objectUpdate, checkValidity } from "../../shared/utility";
 
 class Auth extends Component {
   state = {
@@ -21,6 +21,7 @@ class Auth extends Component {
           required: true,
           error: "Input a valid Email!",
           minLength: 0,
+          isEmail: true,
         },
         valid: false,
         touched: false,
@@ -58,7 +59,7 @@ class Auth extends Component {
       {
         value: event.target.value,
         touched: true,
-        valid: this.checkValidity(
+        valid: checkValidity(
           event.target.value,
           this.state.orderForm[inputIdentifier].validation
         ),
@@ -74,18 +75,6 @@ class Auth extends Component {
       formIsValid = updateOrderForm[key].valid && formIsValid;
     }
     this.setState({ orderForm: updateOrderForm, formIsValid });
-  };
-
-  checkValidity = (value, validation) => {
-    let isValid = true;
-    if (validation.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-    if (validation.minLength) {
-      isValid = value.length > validation.minLength && isValid;
-    }
-
-    return isValid;
   };
 
   submitHandler = (event) => {

@@ -6,7 +6,7 @@ import axios from "../../../axios-orders";
 import Input from "../../../components/UI/Input/Input";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 import * as orderActions from "../../../store/actions/index";
-import { objectUpdate } from "../../../shared/utility";
+import { objectUpdate, checkValidity } from "../../../shared/utility";
 
 class ContactData extends Component {
   state = {
@@ -34,6 +34,7 @@ class ContactData extends Component {
         },
         value: "",
         validation: {
+          isEmail: true,
           required: true,
           minLength: 2,
           maxLength: 15,
@@ -67,6 +68,7 @@ class ContactData extends Component {
           required: true,
           minLength: 2,
           maxLength: 15,
+          isNumeric: true,
         },
         valid: false,
         touched: false,
@@ -143,7 +145,7 @@ class ContactData extends Component {
       {
         value: event.target.value,
         touched: true,
-        valid: this.checkValidity(
+        valid: checkValidity(
           event.target.value,
           this.state.orderForm[inputIdentifier].validation
         ),
@@ -159,21 +161,6 @@ class ContactData extends Component {
       formIsValid = updateOrderForm[key].valid && formIsValid;
     }
     this.setState({ orderForm: updateOrderForm, formIsValid });
-  };
-
-  checkValidity = (value, validation) => {
-    let isValid = true;
-    if (validation.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-    if (validation.maxLength) {
-      isValid = value.length <= validation.maxLength && isValid;
-    }
-    if (validation.minLength) {
-      isValid = value.length > validation.minLength && isValid;
-    }
-
-    return isValid;
   };
 
   render() {
