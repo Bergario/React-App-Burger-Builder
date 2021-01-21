@@ -14,3 +14,14 @@
     box-shadow: 0 2px 3px #eee;
     display: inline-block;
 }
+
+@media(max-width: 620px){
+    .Order{
+        font-size: 12px;
+    }
+}
+@media(max-width: 509px){
+    .Order{
+        font-size: 8px;
+    }
+}
