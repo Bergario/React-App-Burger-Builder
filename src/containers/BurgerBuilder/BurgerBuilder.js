@@ -11,7 +11,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import axios from "../../axios-orders";
 
-export class BurgerBuilder extends Component {
+class BurgerBuilder extends Component {
   state = {
     purchase: false,
   };
