@@ -25,3 +25,11 @@
         font-size: 8px;
     }
 }
+@media(max-width: 395px){
+    .Order span {
+         margin: 0 5px;
+    }
+    .Order {
+        font-size: 7px;
+    }
+}
