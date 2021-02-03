@@ -4,9 +4,17 @@ export {
   fetchIngredientsFailed,
   initIngredients,
 } from "./burgerBuilder";
+
 export {
   purchaseBurgerStart,
   purchaseBurgerFail,
   fetchOrderData,
 } from "./order";
-export { auth, logout, setAuthRedirectPath, authCheckState } from "./auth";
+
+export {
+  auth,
+  logout,
+  logoutSucced,
+  setAuthRedirectPath,
+  authCheckState,
+} from "./auth";

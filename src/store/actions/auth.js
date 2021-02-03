@@ -23,9 +23,15 @@ export const authFail = (error) => {
 };
 
 export const logout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("expiredTime");
-  localStorage.removeItem("userId");
+  // localStorage.removeItem("token");
+  // localStorage.removeItem("expiredTime");
+  // localStorage.removeItem("userId");
+  return {
+    type: actionTypes.AUTH_INITIATE_LOGOUT,
+  };
+};
+
+export const logoutSucced = () => {
   return {
     type: actionTypes.AUTH_LOGOUT,
     path: "/",
@@ -33,10 +39,9 @@ export const logout = () => {
 };
 
 export const expiredTime = (timeout) => {
-  return (dispatch) => {
-    setTimeout(() => {
-      dispatch(logout());
-    }, timeout * 1000);
+  return {
+    type: actionTypes.AUTH_TIMEOUT,
+    timeout: timeout * 1000,
   };
 };
 export const auth = (email, password, isSignUp) => {
