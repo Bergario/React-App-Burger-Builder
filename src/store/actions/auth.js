@@ -1,5 +1,4 @@
 import * as actionTypes from "./actionTypes";
-import axios from "axios";
 
 export const authStart = (email, password) => {
   return {
@@ -100,22 +99,30 @@ export const setAuthRedirectPath = (path) => {
   };
 };
 
+// Use Redux Saga
 export const authCheckState = () => {
-  return (dispatch) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      dispatch(logout());
-    } else {
-      const expired = new Date(localStorage.getItem("expiredTime"));
-      if (expired <= new Date()) {
-        dispatch(logout());
-      } else {
-        const userId = localStorage.getItem("userId");
-        dispatch(authSuccess(token, userId));
-        dispatch(
-          expiredTime((expired.getTime() - new Date().getTime()) / 1000)
-        );
-      }
-    }
+  return {
+    type: actionTypes.AUTH_INITIAL_STATE,
   };
 };
+
+// Redux biasa - Pindah ke sagas/auth
+// export const authCheckState = () => {
+//   return (dispatch) => {
+//     const token = localStorage.getItem("token");
+//     if (!token) {
+//       dispatch(logout());
+//     } else {
+//       const expired = new Date(localStorage.getItem("expiredTime"));
+//       if (expired <= new Date()) {
+//         dispatch(logout());
+//       } else {
+//         const userId = localStorage.getItem("userId");
+//         dispatch(authSuccess(token, userId));
+//         dispatch(
+//           expiredTime((expired.getTime() - new Date().getTime()) / 1000)
+//         );
+//       }
+//     }
+//   };
+// };

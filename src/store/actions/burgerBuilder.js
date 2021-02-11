@@ -1,5 +1,4 @@
 import * as actionTypes from "./actionTypes";
-import axios from "../../axios-orders";
 
 export const addIngredient = (ingName) => {
   return {
@@ -28,13 +27,22 @@ export const setIngredients = (ingredients) => {
     totalPrice: 0,
   };
 };
+
+// USE REDUX SAGA
 export const initIngredients = () => {
-  return (dispatch) => {
-    axios
-      .get("ingredients.json")
-      .then((response) => dispatch(setIngredients(response.data)))
-      .catch((error) => {
-        dispatch(fetchIngredientsFailed());
-      });
+  return {
+    type: actionTypes.INIT_INGREDIENTS,
   };
 };
+
+// USE GENERAL REDUX - MOVE TO SAGA/BURGERBUILDER
+// export const initIngredients = () => {
+//   return (dispatch) => {
+//     axios
+//       .get("ingredients.json")
+//       .then((response) => dispatch(setIngredients(response.data)))
+//       .catch((error) => {
+//         dispatch(fetchIngredientsFailed());
+//       });
+//   };
+// };

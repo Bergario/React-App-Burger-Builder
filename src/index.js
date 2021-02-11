@@ -12,7 +12,7 @@ import reportWebVitals from "./reportWebVitals";
 import buillderReducer from "./store/reducer/burgerBuilder";
 import orderReducer from "./store/reducer/order";
 import authReducer from "./store/reducer/auth";
-import { watchAuth } from "./store/sagas/index";
+import { watchAuth, watchBurgerBuilder, watchOrder } from "./store/sagas/index";
 
 const rootReducer = combineReducers({
   builder: buillderReducer,
@@ -42,6 +42,8 @@ const store = createStore(
 );
 
 sagaMiddleware.run(watchAuth);
+sagaMiddleware.run(watchBurgerBuilder);
+sagaMiddleware.run(watchOrder);
 
 ReactDOM.render(
   <Provider store={store}>

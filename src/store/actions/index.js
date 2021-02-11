@@ -3,12 +3,17 @@ export {
   removeIngredient,
   fetchIngredientsFailed,
   initIngredients,
+  setIngredients,
 } from "./burgerBuilder";
 
 export {
   purchaseBurgerStart,
   purchaseBurgerFail,
   fetchOrderData,
+  purchaseBurgerSuccess,
+  startOrderData,
+  orderDataSuccess,
+  orderDataFail,
 } from "./order";
 
 export {
